@@ -1,7 +1,6 @@
 console.log("Hello There")
 
 const express = require('express');
-const { request } = require('http');
 let app = express();
 const mongoose = require('mongoose')
 require("dotenv").config()
@@ -49,7 +48,6 @@ const requestLogger = (request, response, next) => {
   }
   app.use(requestLogger)
 
-const notes = []
 
 
 // let notes = [
@@ -117,7 +115,7 @@ app.get("/api/notes/:id",(request, response,next) => {
 
   app.delete('/api/notes/:id', (request, response, next) => {
     Note.findByIdAndRemove(request.params.id)
-      .then(result => {
+      .then(() => {
         response.status(204).end()
       })
       .catch(error => next(error))
@@ -141,7 +139,7 @@ app.get("/api/notes/:id",(request, response,next) => {
 })
   })
   
-app.use((request, response, next) => {
+app.use((request, response) => {
     response.status(404).send("no code available to handle this request")
   })
 
