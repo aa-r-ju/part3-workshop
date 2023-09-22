@@ -1,10 +1,12 @@
+const {info} = require("./logger")
+
 const noHandlers = (request, response) => {
     response.status(404).send("no code available to handle this request")
   }
 
 
 const errorHandler = (error, request, response, next) => {
-    console.error(error.message)
+   info(error.message)
   
     if (error.name === 'CastError') {
       return response.status(400).send({ error: 'malformatted id' })
@@ -17,10 +19,10 @@ const errorHandler = (error, request, response, next) => {
   }
 
   const requestLogger = (request, response, next) => {
-    console.log('Method:', request.method)
-    console.log('Path:  ', request.path)
-    console.log('Body:  ', request.body)
-    console.log('we just wrote this code')
+    info('Method:', request.method)
+    info('Path:  ', request.path)
+   info('Body:  ', request.body)
+    info('we just wrote this code')
     next()
   }
 
