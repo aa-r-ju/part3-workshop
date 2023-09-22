@@ -13,8 +13,12 @@ mongoose.set('strictQuery',false)
 mongoose.connect(url)
 
 const noteSchema = new mongoose.Schema({
-  content: String,
-  important: Boolean,
+  content:{
+    type: String,
+  minLength: 5,
+  required:true
+},
+important:Boolean
 })
 
 noteSchema.set('toJSON', {
@@ -104,7 +108,7 @@ app.get("/api/notes/:id",(request, response,next) => {
       important: body.important,
     }
   
-    Note.findByIdAndUpdate(request.params.id, note, { new: true })
+    Note.findByIdAndUpdate(request.params.id, note, { new: true ,runValidators:true})
       .then(updatedNote => {
         response.json(updatedNote)
       })
@@ -118,7 +122,7 @@ app.get("/api/notes/:id",(request, response,next) => {
       })
       .catch(error => next(error))
   })
-  app.post('/api/notes', (request, response) => {
+  app.post('/api/notes', (request, response,next) => {
     const body = request.body
   
     if (body.content === undefined) {
@@ -132,7 +136,9 @@ app.get("/api/notes/:id",(request, response,next) => {
   
     note.save().then(savedNote => {
       response.json(savedNote)
-    })
+    }).catch(e => {
+       next(e)    
+})
   })
   
 app.use((request, response, next) => {
@@ -144,7 +150,10 @@ app.use((request, response, next) => {
   
     if (error.name === 'CastError') {
       return response.status(400).send({ error: 'malformatted id' })
-    } 
+    } else if(error.name === "ValidationError"){
+      return response.status(400).json({ error: error.message })
+
+    }
   
     next(error)
   }
