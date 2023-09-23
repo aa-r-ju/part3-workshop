@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --verbose",
-    "dev": "nodemon index.js",
+    "test": "NODE_ENV=test jest --verbose",
+    "dev": "NODE_ENV=dev nodemon index.js",
     "prod": "node index.js",
     "lint": "eslint ."
   },

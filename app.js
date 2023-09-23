@@ -9,7 +9,7 @@ const {errorHandler,noHandlers,requestLogger} = require("./utils/middleware")
 mongoose.set('strictQuery',false)
 mongoose.connect(url)
 
-
+console.log("NODE_ENV is",process.env.NODE_ENV)
 
 const cors = require('cors')
 app.use(express.json())
