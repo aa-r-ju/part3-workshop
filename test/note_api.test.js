@@ -3,23 +3,14 @@ const supertest = require('supertest')
 const app = require('../app')
 
 const Note = require('../models/note')
+const helpers = require('./tests_helper')
 
-const initialNotes = [
-  {
-    content: 'HTML is easy',
-    important: false,
-  },
-  {
-    content: 'Browser can execute only JavaScript',
-    important: true,
-  },
-]
 
 beforeEach(async () => {
   await Note.deleteMany({})
-  let noteObject = new Note(initialNotes[0])
+  let noteObject = new Note(helpers.initialNotes[0])
   await noteObject.save()
-  noteObject = new Note(initialNotes[1])
+  noteObject = new Note(helpers.initialNotes[1])
   await noteObject.save()
 })
 
@@ -33,16 +24,34 @@ test('notes are returned as json', async () => {
 })
 
 test('there are two notes', async () => {
-    const response = await api.get('/api/notes')
+    const response = await helpers.notesInDb()
   
-    expect(response.body).toHaveLength(initialNotes.length)
+    expect(response).toHaveLength(helpers.initialNotes.length)
   })
   
   test('the first note is about HTTP methods', async () => {
-    const response = await api.get('/api/notes')
+    const response = await helpers.notesInDb()
   
-    expect(response.body[0].content).toBe(initialNotes[0].content)
+    expect(response[0].content).toBe(helpers.initialNotes[0].content)
   })
+
+  test('a note without content cannot be added', async () => {
+    const newNote = {
+      content: 'async/await simplifies making async calls',
+      important: true,
+    }
+  
+    await api
+      .post('/api/notes')
+      .send(newNote)
+      .expect(400)
+  
+    const response = await api.get('/api/notes')
+    
+    expect(response.body).toHaveLength(helpers.initialNotes.length)
+    
+  })
+
 
 afterAll(async () => {
   await mongoose.connection.close()
