@@ -1,15 +1,10 @@
 const app = require("express").Router()
 const Note = require("../models/note")
 
-// app.get("/",(request, response) => {
-//     response.send("<h1>Hello World</h1>")
-//   })
 
-  app.get("/",(request, response) => {
-    Note.find({}).then((result)=> {
+  app.get("/",async (request, response) => {
+   let result = await Note.find({})
       response.json(result)
-
-    })
 })
 
 app.get("/:id",(request, response,next) => {
