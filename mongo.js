@@ -1,31 +1,28 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
-if (process.argv.length<3) {
-  console.log('give password as argument')
-  process.exit(1)
+if (process.argv.length < 3) {
+  console.log("give password as argument");
+  process.exit(1);
 }
 
-const password = process.argv[2]
+const url = process.env.MONGODB_URI;
 
-const url =`mongodb+srv://aarju_me:${password}@cluster-test.kzjo2vb.mongodb.net/?retryWrites=true&w=majority`
-
-
-mongoose.set('strictQuery',false)
-mongoose.connect(url)
+mongoose.set("strictQuery", false);
+mongoose.connect(url);
 
 const noteSchema = new mongoose.Schema({
   content: String,
   important: Boolean,
-})
+});
 
-const Note = mongoose.model('Note', noteSchema)
+const Note = mongoose.model("Note", noteSchema);
 
 const note = new Note({
-  content: 'HTML is Easy',
-  important: true,     
-})
+  content: "HTML is Easy",
+  important: true,
+});
 
 note.save().then(() => {
-  console.log('note saved!')
-  mongoose.connection.close()
-})
+  console.log("note saved!");
+  mongoose.connection.close();
+});

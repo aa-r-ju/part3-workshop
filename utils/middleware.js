@@ -1,32 +1,31 @@
-const {info} = require("./logger")
+const { info } = require("./logger");
 
 const noHandlers = (request, response) => {
-    response.status(404).send("no code available to handle this request")
-  }
-
+  response.status(404).send("no code available to hande this request");
+};
 
 const errorHandler = (error, request, response, next) => {
-   info(error.message)
-  
-    if (error.name === 'CastError') {
-      return response.status(400).send({ error: 'malformatted id' })
-    } else if(error.name === "ValidationError"){
-      return response.status(400).json({ error: error.message })
+  info(error.message);
 
-    }
-  
-    next(error)
+  if (error.name === "CastError") {
+    return response.status(400).send({ error: "malformatted id" });
+  } else if (error.name === "ValidationError") {
+    return response.status(400).json({ error: error.message });
   }
 
-  const requestLogger = (request, response, next) => {
-    info('Method:', request.method)
-    info('Path:  ', request.path)
-   info('Body:  ', request.body)
-    info('we just wrote this code')
-    next()
-  }
+  next(error);
+};
 
-  module.exports = {
-    errorHandler,noHandlers,requestLogger
+const requestLogger = (request, response, next) => {
+  info("Method:", request.method);
+  info("Path:  ", request.path);
+  info("Body:  ", request.body);
+  info("we just wrote this code");
+  next();
+};
 
-  }
+module.exports = {
+  errorHandler,
+  noHandlers,
+  requestLogger,
+};

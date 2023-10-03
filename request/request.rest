@@ -1,18 +1,23 @@
 
+DELETE http://localhost:3001/api/notes/64d07149dfc0ef7e666322dd
+###
 GET http://localhost:3001/api/notes
 ###
-
-GET http://localhost:3001/api/notes/1
+GET http://localhost:3001/api/notes/64cfb0b3acf6c111fe8a5b58
 ###
-
-DELETE http://localhost:3001/api/notes
-###
-
-POST http://localhost:3001/api/notes
+POST http://localhost:3001/api/notes/
 content-type: application/json
 
 {
-    "content": "sa",
-    "important": true
+    "content": "Hello Aarju",
+    "important": false
 }
+
 ###
+PUT http://localhost:3001/api/notes/64cca90539337328daf0dcf1
+content-type: application/json
+
+{
+    "content": "HTML is easy",
+    "important": false
+}

@@ -1,27 +1,26 @@
-console.log("Hello There")
+const express = require("express");
+const app = express();
+const cors = require("cors");
+const mongoose = require("mongoose");
+const notesController = require("./controllers/notes");
+const { url } = require("./utils/config");
+const {
+  errorHandler,
+  noHandlers,
+  requestLogger,
+} = require("./utils/middleware");
 
-const express = require('express');
-let app = express();
-const mongoose = require('mongoose')
-const {url} = require("./utils/config")
-const notesController = require("./controllers/notes")
-const {errorHandler,noHandlers,requestLogger} = require("./utils/middleware")
-mongoose.set('strictQuery',false)
-mongoose.connect(url)
+mongoose.set("strictQuery", false);
+mongoose.connect(url);
 
-console.log("NODE_ENV is",process.env.NODE_ENV)
-
-const cors = require('cors')
-app.use(express.json())
-app.use(express.static("build"))
+app.use(express.json());
 app.use(cors());
-app.use(requestLogger)
+app.use(express.static("dist"));
+app.use(requestLogger);
 
-app.use("/api/notes",notesController)
- 
-app.use(noHandlers)
+app.use("/api/notes", notesController);
 
-app.use(errorHandler)
+app.use(noHandlers);
+app.use(errorHandler);
 
-
-module.exports = app
+module.exports = app;

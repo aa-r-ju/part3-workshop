@@ -7,6 +7,7 @@
     "test": "NODE_ENV=test jest --verbose",
     "dev": "NODE_ENV=dev nodemon index.js",
     "prod": "node index.js",
+    "build:ui": "rm -rf dist && cd ../../part2/notes-app && rm -rf src/dist && npm run build && cp -r src/dist ../../part3/notes-server",
     "lint": "eslint ."
   },
   "keywords": [],
