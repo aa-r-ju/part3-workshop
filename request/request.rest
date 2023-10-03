@@ -3,14 +3,16 @@ DELETE http://localhost:3001/api/notes/64d07149dfc0ef7e666322dd
 ###
 GET http://localhost:3001/api/notes
 ###
-GET http://localhost:3001/api/notes/64cfb0b3acf6c111fe8a5b58
+GET http://localhost:3001/api/notes/651bc4c15b77a80782d5492a
 ###
 POST http://localhost:3001/api/notes/
 content-type: application/json
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkJ1YmJsZSIsImlkIjoiNjUxYmQ1YzQ4YTA3OTEzNWYyY2ViY2RmIiwiaWF0IjoxNjk2MzIzMTI0LCJleHAiOjE2OTYzMjMxNTR9.dqcBQ9hMoL-1YyRkit9hFHPbMm8BdZuERISv_GoqBJs
 
 {
-    "content": "Hello Aarju",
-    "important": false
+    "content": "note creation using token",
+    "important": false,
+    "userId": "64d5ca5aa139ba23e084f42a"
 }
 
 ###
@@ -20,4 +22,21 @@ content-type: application/json
 {
     "content": "HTML is easy",
     "important": false
+}
+###
+POST http://localhost:3001/api/users/
+content-type: application/json
+
+{
+    "name": "Aarju123",
+    "username": "Bubble",
+    "password": "password123"
+}
+###
+POST http://localhost:3001/api/login/
+content-type: application/json
+
+{
+    "username": "Bubble",
+    "password": "password123"
 }
